@@ -160,7 +160,7 @@ const AppSidebar: React.FC = () => {
                     className={`ml-auto w-5 h-5 transition-transform duration-200 ${
                       openSubmenu?.type === "main" &&
                       openSubmenu?.index === index
-                        ? "rotate-180 text-brand-500"
+                        ? "rotate-180 text-white"
                         : ""
                     }`}
                   />
@@ -259,7 +259,7 @@ const AppSidebar: React.FC = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 ${
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-brand-500 border-brand-600 text-white h-screen transition-all duration-300 ease-in-out z-50 border-r ${
         isExpanded || isMobileOpen
           ? "w-[290px]"
           : isHovered
@@ -279,23 +279,12 @@ const AppSidebar: React.FC = () => {
       >
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
-            <>
-              <Image
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-
-              <Image
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-            </>
+            <Image
+              src="/images/logo/logo-dark.svg"
+              alt="Logo"
+              width={150}
+              height={40}
+            />
           ) : (
             <Image
               src="/images/logo/logo-icon.svg"
@@ -312,7 +301,7 @@ const AppSidebar: React.FC = () => {
         <nav className="mb-6">
           <div>
             <h2
-              className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+              className={`mb-4 text-xs uppercase flex leading-[20px] text-white/70 ${
                 !isExpanded && !isHovered
                   ? "lg:justify-center"
                   : "justify-start"
