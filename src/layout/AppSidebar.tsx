@@ -27,7 +27,7 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    path: "/",
+    path: "/admin",
   },
   {
     icon: <GridIcon />,
@@ -35,11 +35,11 @@ const navItems: NavItem[] = [
     subItems: [
       {
         name: "Add Election",
-        path: "/manage-election/add-election",
+        path: "/admin/manage-election/add-election",
       },
       {
         name: "List Election",
-        path: "/manage-election/list-election",
+        path: "/admin/manage-election/list-election",
       },
     ],
   },
