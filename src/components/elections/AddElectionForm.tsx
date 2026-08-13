@@ -4,8 +4,6 @@ import { FormEvent, useEffect, useState } from "react";
 import DatePicker from "../form/date-picker";
 import { CheckCircleIcon, CloseIcon, ErrorIcon } from "@/icons";
 
-const wingOptions = ["General", "Youth", "Women", "Cultural", "Sports"];
-
 const rulesAndRegulations = [
   "Only eligible members of the selected wings may submit nominations and vote.",
   "All nominations must be submitted before the nomination closing date and time.",
@@ -67,6 +65,9 @@ export default function AddElectionForm({ initialElection }: { initialElection?:
     useState<Period>(initialElection?.voting ?? emptyPeriod);
 
   const [wings, setWings] = useState<string[]>(initialElection?.wings ?? []);
+  const [wingOptions, setWingOptions] = useState<string[]>([]);
+  const [isLoadingWings, setIsLoadingWings] = useState(true);
+  const [wingsError, setWingsError] = useState<string | null>(null);
   const [location, setLocation] = useState(initialElection?.location ?? "");
 
   const [toast, setToast] = useState<{
@@ -85,6 +86,34 @@ export default function AddElectionForm({ initialElection }: { initialElection?:
 
     return () => window.clearTimeout(timeoutId);
   }, [toast]);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadWings = async () => {
+      try {
+        const response = await fetch("/api/wings");
+        const result: { data?: unknown; message?: string } = await response.json();
+
+        if (!response.ok || !Array.isArray(result.data)) {
+          throw new Error(result.message || "Unable to load member wings.");
+        }
+
+        if (isMounted) {
+          setWingOptions(result.data.filter((wing): wing is string => typeof wing === "string"));
+        }
+      } catch (error) {
+        if (isMounted) {
+          setWingsError(error instanceof Error ? error.message : "Unable to load member wings.");
+        }
+      } finally {
+        if (isMounted) setIsLoadingWings(false);
+      }
+    };
+
+    loadWings();
+    return () => { isMounted = false; };
+  }, []);
 
   const updatePeriod = (
     setter: React.Dispatch<React.SetStateAction<Period>>,
@@ -515,7 +544,13 @@ export default function AddElectionForm({ initialElection }: { initialElection?:
 
             {/* Horizontal checkbox row */}
             <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4">
-              {wingOptions.map((wing) => (
+              {isLoadingWings ? (
+                <p className="text-sm text-gray-500 dark:text-gray-400">Loading member wings…</p>
+              ) : wingsError ? (
+                <p className="text-sm text-error-600 dark:text-error-400">{wingsError}</p>
+              ) : wingOptions.length === 0 ? (
+                <p className="text-sm text-gray-500 dark:text-gray-400">No wings are available in the members collection.</p>
+              ) : wingOptions.map((wing) => (
                 <label
                   key={wing}
                   className="group flex cursor-pointer items-center gap-2.5"

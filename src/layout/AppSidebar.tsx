@@ -27,7 +27,7 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    path: "/admin",
+    path: "/admin/dashboard",
   },
   {
     icon: <GridIcon />,
@@ -271,27 +271,41 @@ const AppSidebar: React.FC = () => {
     >
       {/* Logo */}
       <div
-        className={`py-8 flex ${
+        className={`py-8 flex items-center ${
           !isExpanded && !isHovered
             ? "lg:justify-center"
             : "justify-start"
         }`}
       >
-        <Link href="/">
+        <Link href="/admin">
           {isExpanded || isHovered || isMobileOpen ? (
-            <Image
-              src="/images/logo/logo-dark.svg"
-              alt="Logo"
-              width={150}
-              height={40}
-            />
+            <div className="flex items-center gap-3">
+              <div className="bg-white rounded-lg p-1.5 flex items-center justify-center">
+                <Image
+                  src="/images/logo/balc_logo.png"
+                  alt="Logo"
+                  width={40}
+                  height={40}
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs font-bold text-white leading-tight">
+                  ASSOCIATION OF BENGAL
+                </span>
+                <span className="text-xs font-semibold text-white/80 leading-tight">
+                  FOR LITERATURE AND CULTURE
+                </span>
+              </div>
+            </div>
           ) : (
-            <Image
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+            <div className="bg-white rounded-lg p-1.5 flex items-center justify-center">
+              <Image
+                src="/images/logo/balc_logo.png"
+                alt="Logo"
+                width={40}
+                height={40}
+              />
+            </div>
           )}
         </Link>
       </div>
